@@ -2,29 +2,38 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
-function Welcome(props) {
-    return <h1>Привет, {props.name}</h1>
-}
-
-/*
-class Welcome extends React.Component{
-    render() {
-        return <h1>Привет, {this.props.name}</h1>;
-    }
-}
-*/
-
-function App() {
-    return (
-      <div>
-          <Welcome name="Алиса" />
-          <Welcome name="Базилио" />
-          <Welcome name="Буратино" />
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <UserInfo user={props.author} />,
+      <div className="Comment-text">
+        {props.text}
       </div>
-    );
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
 }
 
+function Avatar(props) {
+    return (
+        <img className="Avatar"
+            src={props.user.avatarUrl}
+            alt={props.user.name}
+        />
+    )
+}
+
+
+function UserInfo(props) {
+    return (
+        <Avatar user={props.user} />,
+        <div className="UserInfo-name">
+            {props.user.name}
+        </div>
+    )
+}
 
 /*const element = <Welcome name="ДИМОООООН"/>*/
 
