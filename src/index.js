@@ -3,33 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-function formatName(user) {
-    return user.firstName + ' ' + user.lastName;
+function tick() {
+    const element = (
+        <div>
+            <h1>Hello, world</h1>
+            <h2>It is {new Date().toLocaleTimeString()}</h2>
+        </div>
+    );
+    ReactDOM.render(element, document.getElementById('root'));
 }
 
-const user = {
-    firstName: 'Дмитрий',
-    lastName: 'Дроздов',
-    avatrUrl: '',
-};
-
-const element = <div tabIndex="0"></div>
-const element_1 = <img src={user.avatrUrl}/>
-const element_2 = (
-    <div>
-        <h1>Здравствуйте</h1>
-        <h2>Рады вас видеть.</h2>
-    </div>
-);
-
-
-
-
-function getGreeting(user) {
-    if (user) {
-        return <h1>Здравствуй, {formatName(user)}!</h1>
-    }
-    return <h1>Здравствуй, незнакомец</h1>
-}
-
-ReactDOM.render(getGreeting(user), document.getElementById('root'));
+setInterval(tick, 1000);
