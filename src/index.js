@@ -3,14 +3,29 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-function tick() {
-    const element = (
-        <div>
-            <h1>Hello, world</h1>
-            <h2>It is {new Date().toLocaleTimeString()}</h2>
-        </div>
-    );
-    ReactDOM.render(element, document.getElementById('root'));
+function Welcome(props) {
+    return <h1>Привет, {props.name}</h1>
 }
 
-setInterval(tick, 1000);
+/*
+class Welcome extends React.Component{
+    render() {
+        return <h1>Привет, {this.props.name}</h1>;
+    }
+}
+*/
+
+function App() {
+    return (
+      <div>
+          <Welcome name="Алиса" />
+          <Welcome name="Базилио" />
+          <Welcome name="Буратино" />
+      </div>
+    );
+}
+
+
+/*const element = <Welcome name="ДИМОООООН"/>*/
+
+ReactDOM.render(<App />, document.getElementById("root"))
