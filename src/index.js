@@ -4,37 +4,27 @@ import './index.css';
 
 
 
-class Clock extends React.Component {
+class Toggle extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {date: new Date()};
+        this.state = {isToggleOn: true};
+        this.handleClick = this.handleClick.bind(this);
     }
-    componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1000);
+    handleClick() {
+        this.setState(prevState => ({
+            isToggleOn: !prevState.isToggleOn
+        }));
     }
-
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-    
-    tick() {
-        this.setState({
-            date: new Date()
-        });
-    }
-
     render() {
         return (
-            <div>
-                <h1>Привет, мир!</h1>
-                <h2>Сейчас {this.state.date.toLocaleTimeString()}</h2>
-            </div>
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? 'Включено' : 'Выключено'}
+            </button>
         );
     }
 }
 
 ReactDOM.render(
-    <Clock />,
+    <Toggle />,
     document.getElementById('root')
 )
-
