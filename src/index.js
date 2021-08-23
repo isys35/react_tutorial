@@ -4,27 +4,20 @@ import './index.css';
 
 
 
-class Toggle extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {isToggleOn: true};
-        this.handleClick = this.handleClick.bind(this);
-    }
-    handleClick() {
-        this.setState(prevState => ({
-            isToggleOn: !prevState.isToggleOn
-        }));
-    }
-    render() {
-        return (
-            <button onClick={this.handleClick}>
-                {this.state.isToggleOn ? 'Включено' : 'Выключено'}
-            </button>
-        );
-    }
+class LoggingButton extends React.Component {
+  // Такой синтаксис гарантирует, что `this` привязан к handleClick.
+    // Предупреждение: это экспериментальный синтаксис
+  handleClick = () => {  console.log('значение this:', this);  }
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        Нажми на меня
+      </button>
+    );
+  }
 }
 
 ReactDOM.render(
-    <Toggle />,
+    <LoggingButton />,
     document.getElementById('root')
 )
