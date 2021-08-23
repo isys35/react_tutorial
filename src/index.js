@@ -17,6 +17,9 @@ class LoggingButton extends React.Component {
   }
 }
 
+<button onClick={(e) => this.deleteRow(id, e)}>Удалить строку</button>
+<button onClick={this.deleteRow(this, id)}>Удалить строку</button>
+
 ReactDOM.render(
     <LoggingButton />,
     document.getElementById('root')
