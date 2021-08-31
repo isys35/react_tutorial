@@ -2,26 +2,36 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const numbers = [1, 2, 3, 4, 5];
-const listItems = numbers.map((number) =>
-    <li>{number}</li>
-);
-
-function ListItem(props) {
-    return <li>{props.value}</li>;
-}
-
-function NumberList(props) {
-    const numbers = props.numbers;
-    const listItems = numbers.map((number) => <ListItem key={number.toString()} value={number}/>);
+function Blog(props) {
+    const sidebar = (
+        <ul>
+            {props.posts.map((post) =>
+                <li key={post.id}>
+                    {post.title}
+                </li>
+            )}
+        </ul>
+    );
+    const content = props.posts.map((post) =>
+        <div key={post.id}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+        </div>
+    );
     return (
-      <ul>
-          {listItems}
-      </ul>
+        <div>
+            {sidebar}
+            <hr/>
+            {content}
+        </div>
     );
 }
+const posts = [
+    {id: 1, title: 'Привет, мир', content: 'Добро пожаловать в документацию React!'},
+    {id: 2, title: 'Установка', content: 'React можно установить из npm.'}
+];
 
 ReactDOM.render(
-  <NumberList numbers={numbers} />,
-  document.getElementById('root')
+    <Blog posts={posts} />,
+    document.getElementById('root')
 );
