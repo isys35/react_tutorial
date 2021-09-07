@@ -3,44 +3,49 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-class FlavorForm extends React.Component {
+class Reservation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 'coconut'
+            isGoing: true,
+            numberOfGuests: 2
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
     }
 
-    handleSubmit(event) {
-        alert('Ваш любимый вкус: ' + this.state.value);
-        event.preventDefault();
-    }
     render() {
         return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Выберите ваш любимый вкус:
-            <select value={this.state.value} onChange={this.handleChange}>
-                <option value="grapefruit">Грейпфрут</option>
-                <option value="lime">Лайм</option>
-                <option value="coconut">Кокос</option>
-                <option value="mango">Кокос</option>
-            </select>
-        </label>
-        <input type="submit" value="Отправить" />
-      </form>
-    );
+            <form>
+                <label>
+                    Пойдут:
+                    <input name='isGoing'
+                           type="checkbox"
+                           checked={this.state.isGoing}
+                           onChange={this.handleInputChange} />
+                </label>
+                <br/>
+                <label>
+                    <input  name='numberOfGuests' 
+                            type="number"
+                            value={this.state.numberOfGuests}
+                            onChange={this.handleInputChange}/>
+                </label>
+            </form>
+        )
     }
 }
 
-
 ReactDOM.render(
-  <FlavorForm />,
+  <Reservation />,
   document.getElementById('root')
 );
