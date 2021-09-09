@@ -11,19 +11,6 @@ function FancyBorder(props) {
     )
 }
 
-function WelcomeDialog() {
-    return (
-        <FancyBorder color="blue">
-            <h1 className="Dialog-title">
-                Добро пожаловать
-            </h1>
-            <p className="Dialog-message">
-                Спасибо, что посетили наш космический корабль!
-            </p>
-        </FancyBorder>
-    );
-}
-
 function SplitPane(props) {
     return (
         <div className="SplitPane">
@@ -57,7 +44,28 @@ function App() {
 }
 
 
+function Dialog(props) {
+    return (
+        <FancyBorder color="blue">
+            <h1 className="Dialog-title">
+                {props.title}
+            </h1>
+            <p className="Dialog-message">
+                {props.message}
+            </p>
+        </FancyBorder>
+    );
+}
+
+
+function WelcomeDialog() {
+    return (
+        <Dialog title="Добро пожаловать" message="Спасибо, что посетили наш корабль! "></Dialog>
+    );
+}
+
+
 ReactDOM.render(
-  <App />,
+  <WelcomeDialog />,
   document.getElementById('root')
 );
