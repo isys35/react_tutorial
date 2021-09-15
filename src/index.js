@@ -3,99 +3,109 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-function FancyBorder(props) {
+class ProductCategoryRow extends React.Component {
+  render() {
+    const category = this.props.category;
     return (
-        <div className={'FancyBorder FancyBorder-' + props.color}>
-            {props.children}
-        </div>
-    )
-}
-
-function SplitPane(props) {
-    return (
-        <div className="SplitPane">
-            <div className="SplitPane-left">
-                {props.left}
-            </div>
-            <div className="SplitPane-right">
-                {props.right}
-            </div>
-        </div>
-    )
-}
-
-function Contacts() {
-    return (
-        <p>Контакты</p>
-    )
-}
-
-
-function Chat() {
-    return (
-        <p>Чат</p>
-    )
-}
-
-function App() {
-    return (
-        <SplitPane left={<Contacts />} right={<Chat />}></SplitPane>
+      <tr>
+        <th colSpan="2">
+          {category}
+        </th>
+      </tr>
     );
+  }
 }
 
+class ProductRow extends React.Component {
+  render() {
+    const product = this.props.product;
+    const name = product.stocked ?
+      product.name :
+      <span style={{color: 'red'}}>
+        {product.name}
+      </span>;
 
-function Dialog(props) {
     return (
-        <FancyBorder color="blue">
-            <h1 className="Dialog-title">
-                {props.title}
-            </h1>
-            <p className="Dialog-message">
-                {props.message}
-            </p>
-            {props.children}
-        </FancyBorder>
+      <tr>
+        <td>{name}</td>
+        <td>{product.price}</td>
+      </tr>
     );
+  }
 }
 
-
-function WelcomeDialog() {
-    return (
-        <Dialog title="Добро пожаловать" message="Спасибо, что посетили наш корабль! "></Dialog>
-    );
-}
-
-class SignUpDialog extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSignUp = this.handleSignUp.bind(this);
-        this.state = {login: ''};
-    }
-
-    render() {
-        return (
-            <Dialog title="Программа исследования Марса" message="Как к вам обращаться?">
-                <input value={this.state.login} onChange={this.handleChange} />
-                <button onClick={this.handleSignUp}>
-                    Запишите меня
-                </button>
-            </Dialog>
+class ProductTable extends React.Component {
+  render() {
+    const rows = [];
+    let lastCategory = null;
+    
+    this.props.products.forEach((product) => {
+      if (product.category !== lastCategory) {
+        rows.push(
+          <ProductCategoryRow
+            category={product.category}
+            key={product.category} />
         );
-    }
+      }
+      rows.push(
+        <ProductRow
+          product={product}
+          key={product.name} />
+      );
+      lastCategory = product.category;
+    });
 
-    handleChange(e) {
-        this.setState({login: e.target.value});
-    }
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    );
+  }
+}
 
-    handleSignUp() {
-        alert(`Добро пожаловать на борт, ${this.state.login}!`);
-    }
+class SearchBar extends React.Component {
+  render() {
+    return (
+      <form>
+        <input type="text" placeholder="Search..." />
+        <p>
+          <input type="checkbox" />
+          {' '}
+          Only show products in stock
+        </p>
+      </form>
+    );
+  }
+}
 
+class FilterableProductTable extends React.Component {
+  render() {
+    return (
+      <div>
+        <SearchBar />
+        <ProductTable products={this.props.products} />
+      </div>
+    );
+  }
 }
 
 
+const PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+];
+ 
 ReactDOM.render(
-  <SignUpDialog />,
+  <FilterableProductTable products={PRODUCTS} />,
   document.getElementById('root')
 );
